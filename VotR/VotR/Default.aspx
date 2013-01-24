@@ -15,6 +15,7 @@
                 var vm = this;
 
                 vm.options = ko.observableArray();
+                vm.currentOption = ko.observable();
 
                 var voteHub = $.connection.voteHub;
                 var optionLookup = [];
@@ -25,8 +26,13 @@
                     ovm.name = name;
                     ovm.votes = ko.observable(votes);
 
+                    ovm.selected = ko.computed(function() {
+                        return ovm.name === vm.currentOption();
+                    });
+
                     ovm.vote = function() {
                         voteHub.server.vote(ovm.name);
+                        vm.currentOption(ovm.name);
                     };
                 }
 
@@ -57,7 +63,7 @@
             </tr>
         </thead>
         <tbody data-bind="foreach: options">
-            <tr data-bind="click: vote">
+            <tr data-bind="click: vote, style: {backgroundColor: selected() ? 'yellow' : ''}">
                 <td data-bind="text: name"></td>
                 <td data-bind="text: votes"></td>
             </tr>
