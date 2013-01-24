@@ -17,9 +17,27 @@
                 vm.options = ko.observableArray();
 
                 var voteHub = $.connection.voteHub;
+                var optionLookup = [];
 
-                voteHub.client.updateOption = function(name, votes) {
-                    vm.options.push({ name: name, votes: votes });
+                function OptionViewModel(name, votes) {
+                    var ovm = this;
+
+                    ovm.name = name;
+                    ovm.votes = ko.observable(votes);
+
+                    ovm.vote = function() {
+                        voteHub.server.vote(ovm.name);
+                    };
+                }
+
+                voteHub.client.updateOption = function (name, votes) {
+                    if (name in optionLookup) {
+                        optionLookup[name].votes(votes);
+                    } else {
+                        var newOption = new OptionViewModel(name, votes);
+                        optionLookup[name] = newOption;
+                        vm.options.push(newOption);
+                    }
                 };
 
                 $.connection.hub.start(voteHub.server.register);
@@ -39,7 +57,7 @@
             </tr>
         </thead>
         <tbody data-bind="foreach: options">
-            <tr>
+            <tr data-bind="click: vote">
                 <td data-bind="text: name"></td>
                 <td data-bind="text: votes"></td>
             </tr>
