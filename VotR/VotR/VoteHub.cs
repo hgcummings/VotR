@@ -43,7 +43,7 @@ namespace VotR
     private void CancelPreviousVote()
     {
       string prevVote;
-      if (Votes.TryGetValue(Context.ConnectionId, out prevVote))
+      if (Votes.TryRemove(Context.ConnectionId, out prevVote))
       {
         var newValue = Options.AddOrUpdate(prevVote, x => 0, (x, prevValue) => prevValue - 1);
         Clients.All.UpdateOption(prevVote, newValue);
