@@ -20,6 +20,10 @@
                 var voteHub = $.connection.voteHub;
                 var optionLookup = [];
 
+                vm.nominate = function() {
+                    voteOrSubmit($('#nominate').val());
+                };
+
                 function OptionViewModel(name, votes) {
                     var ovm = this;
 
@@ -31,9 +35,13 @@
                     });
 
                     ovm.vote = function() {
-                        voteHub.server.vote(ovm.name);
-                        vm.currentOption(ovm.name);
+                        voteOrSubmit(ovm.name);
                     };
+                }
+
+                function voteOrSubmit(option) {
+                    voteHub.server.vote(option);
+                    vm.currentOption(option);
                 }
 
                 voteHub.client.updateOption = function (name, votes) {
@@ -69,5 +77,9 @@
             </tr>
         </tbody>
     </table>
+    <form data-bind="submit: nominate">
+        <input id="nominate" name="nominate"/>
+        <input type="submit" value="Nominate!"/>
+    </form>
 </body>
 </html>

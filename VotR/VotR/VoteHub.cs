@@ -9,14 +9,7 @@ namespace VotR
 {
   public class VoteHub : Hub
   {
-    private static readonly Dictionary<string, int> OptionsInit = new Dictionary<string, int>
-      {
-        { "Red", 4},
-        {"Green", 5},
-        {"Blue", 98}
-      };
-
-    private static readonly ConcurrentDictionary<string, int> Options = new ConcurrentDictionary<string, int>(OptionsInit);
+    private static readonly ConcurrentDictionary<string, int> Options = new ConcurrentDictionary<string, int>();
 
     private static readonly ConcurrentDictionary<string, string> Votes = new ConcurrentDictionary<string, string>(); 
 
