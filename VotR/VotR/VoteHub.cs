@@ -34,6 +34,12 @@ namespace VotR
       return base.OnDisconnected();
     }
 
+    public void Reset()
+    {
+      Options.Clear();
+      Votes.Clear();
+    }
+
     private void CancelPreviousVote()
     {
       string prevVote;

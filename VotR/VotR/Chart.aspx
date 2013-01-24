@@ -66,6 +66,11 @@
                 chartView.model = this;
                 voteHub.client.updateOption = chartView.updateOption;
             };
+
+            $('#reset').click(function(event) {
+                voteHub.server.reset();
+                event.preventDefault();
+            });
         };
 
         $(function () {
@@ -78,5 +83,6 @@
     <div id="chart_div"></div>
     <h2><a href="http://bit.ly/10dS2Fo">http://bit.ly/10dS2Fo</a></h2>
     <h3><a href="http://softcon.azurewebsites.net">http://softcon.azurewebsites.net</a></h3>
+    <h4><a href="#" id="reset">Reset</a></h4>
 </body>
 </html>
