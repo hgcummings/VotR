@@ -18,7 +18,6 @@
                 vm.currentOption = ko.observable();
 
                 var voteHub = $.connection.voteHub;
-                var optionLookup = [];
 
                 vm.nominate = function() {
                     voteOrSubmit($('#nominate').val());
@@ -45,13 +44,19 @@
                 }
 
                 voteHub.client.updateOption = function (name, votes) {
-                    if (name in optionLookup) {
-                        optionLookup[name].votes(votes);
+                    var existing = ko.utils.arrayFirst(vm.options(), function(option) {
+                        return option.name === name;
+                    });
+                    if (existing) {
+                        existing.votes(votes);
                     } else {
                         var newOption = new OptionViewModel(name, votes);
-                        optionLookup[name] = newOption;
                         vm.options.push(newOption);
                     }
+                };
+
+                voteHub.client.reset = function() {
+                    vm.options.removeAll();
                 };
 
                 $.connection.hub.start(voteHub.server.register);

@@ -56,6 +56,11 @@
                     redraw();
                 };
 
+                this.reset = function() {
+                    dataTable.removeRows(0, dataTable.getNumberOfRows());
+                    redraw();
+                };
+
                 google.visualization.events.addListener(chart, 'select', function () {
                     var selection = dataTable.getValue(chart.getSelection()[0].row, 0);
                     view.model.select(selection);
@@ -65,6 +70,7 @@
             var chartViewModel = new function () {
                 chartView.model = this;
                 voteHub.client.updateOption = chartView.updateOption;
+                voteHub.client.reset = chartView.reset;
             };
 
             $('#reset').click(function(event) {

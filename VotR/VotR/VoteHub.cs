@@ -36,8 +36,9 @@ namespace VotR
 
     public void Reset()
     {
-      Options.Clear();
       Votes.Clear();
+      Options.Clear();
+      Clients.All.Reset();
     }
 
     private void CancelPreviousVote()
