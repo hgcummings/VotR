@@ -59,7 +59,10 @@
                     vm.options.removeAll();
                 };
 
-                $.connection.hub.start(voteHub.server.register);
+                $.connection.hub.start(function() {
+                    voteHub.server.register();
+                    $("#submit").removeAttr("disabled");
+                });
             }
 
             ko.applyBindings(new ViewModel());
@@ -84,7 +87,7 @@
     </table>
     <form data-bind="submit: nominate">
         <input id="nominate" name="nominate"/>
-        <input type="submit" value="Nominate!"/>
+        <input id="submit" type="submit" value="Nominate!" disabled="disabled"/>
     </form>
 </body>
 </html>
