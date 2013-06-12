@@ -28,12 +28,6 @@ namespace VotR
       RecordNewVote(option);
     }
 
-    public override Task OnDisconnected()
-    {
-      CancelPreviousVote();
-      return base.OnDisconnected();
-    }
-
     public void Reset()
     {
       Votes.Clear();
